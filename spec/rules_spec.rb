@@ -23,7 +23,7 @@ describe Rules do
 
   describe "pawn" do
 
-    it "can't move into a non-diagnol occupied space" do
+    it "can't move into a non-diagonal occupied space" do
       pos1 = "1,1"
       pos2 = "1,6"
 
@@ -74,7 +74,25 @@ describe Rules do
       old_piece.should == @chess.board.get(3,1)
     end
 
-    it "can pawn something by one diagnol move up"
+    it "cannot move more than 1 space if it's not it's first move" do
+      pos1 = "1,1"
+      pos2 = "2,1"
+
+      x1,y1,x2,y2 = @chess.get_coords(pos1, pos2)
+      @chess.move_piece(x1,y1,x2,y2)
+
+      pos1 = "2,1"
+      pos2 = "4,1"
+
+      x1,y1,x2,y2 = @chess.get_coords(pos1, pos2)
+      t, err = @chess.validate(x1,y1,x2,y2)
+
+      t.should == false
+      err.should == "You can't move more than one space."
+    end
+
+    it "can capture a piece by one diagonal move up"
+
   end
 
 end

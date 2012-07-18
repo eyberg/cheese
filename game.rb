@@ -67,7 +67,7 @@ class Chess
     x1,y1 = pos1.strip.split(',')
     x2,y2 = pos2.strip.split(',')
 
-    return x1,y1,x2,y2
+    return x1.to_i, y1.to_i, x2.to_i, y2.to_i
   end
 
   def red_piece?(x1, y1)
@@ -86,6 +86,14 @@ class Chess
     y1 > y2
   end
 
+  def illegal_amount_of_spaces?(y1, y2)
+    if y1.eql? 1 then
+      (y2 - y2) <= 2
+    else
+      (y2 - y1) == 1
+    end
+  end
+
   def validate(x1,y1,x2,y2)
 
     unless x1 && x2 && y1 && y2
@@ -102,8 +110,14 @@ class Chess
     end
 
     # only for pawns for now
+    # refactor to allow capture
     if !vacant?(x2,y2) then
       return false, "Not a vacant space."
+    end
+
+    # pawn only - refactor to pawn's rules
+    if illegal_amount_of_spaces?(y1, y2) then
+      return false, "You can't move more than one space."
     end
 
     return true
