@@ -57,7 +57,6 @@ class Chess
       ask_move
 
     else
-      puts err
       ask_move
     end
 
@@ -77,7 +76,7 @@ class Chess
   end
 
   def black_piece?(x1, y1)
-    piece = board.get(x1,y1)
+    piece = board.get(y1,x1)
 
     piece.include?("30")
   end
@@ -88,9 +87,9 @@ class Chess
 
   def illegal_amount_of_spaces?(y1, y2)
     if y1.eql? 1 then
-      (y2 - y2) <= 2
+      return (y2 - y1) > 2
     else
-      (y2 - y1) == 1
+      return (y2 - y1) != 1
     end
   end
 
@@ -123,8 +122,8 @@ class Chess
     return true
   end
 
-  def vacant?(x1, y1)
-    if board.get(x1, y1).eql? 'o'.blue.on_white then
+  def vacant?(x2, y2)
+    if board.get(y2, x2).eql? 'o'.blue.on_white then
       return true
     else
       return false
@@ -140,7 +139,7 @@ class Chess
     crow = 0
     board.rows.each do |x|
       board.row(x).size.times.each do |y|
-        print board.get(x,y)
+        print board.get(y,x)
       end
       print "\n"
     end
